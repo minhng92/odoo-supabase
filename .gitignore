@@ -1,0 +1,10 @@
+# odoo
+postgresql/
+etc/odoo-server.log*
+etc/addons/
+etc/sessions/
+etc/filestore/
+
+# supabase
+volumes/db/data
+volumes/storage
