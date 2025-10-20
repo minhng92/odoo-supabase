@@ -17,7 +17,8 @@ services:
       - "127.0.0.1:10019:8069"
       - "127.0.0.1:20019:8072" # live chat
     tty: true
-    command: --
+    command: -- --database=${POSTGRES_DB}
+    # command: -- --database=${POSTGRES_DB} --with-demo   # uncomment to get database with demo data
     environment:
       HOST: ${POSTGRES_HOST}
       PORT: ${POSTGRES_PORT}
@@ -362,8 +363,8 @@ services:
     container_name: supabase-analytics
     image: supabase/logflare:1.22.4
     restart: unless-stopped
-    ports:
-      - 127.0.0.1:4100:4000
+    # ports:
+    #   - 127.0.0.1:4000:4000
     # Uncomment to use Big Query backend for analytics
     # volumes:
     #   - type: bind
