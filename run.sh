@@ -56,5 +56,5 @@ else
 fi
 
 
-echo "Odoo started at http://localhost:$ODOO_PORT | Master Password: minhng.info | Live chat port: $ODOO_CHAT"
+echo "Odoo started at http://localhost:$ODOO_PORT | Default User: admin | Default Password: admin | Live chat port: $ODOO_CHAT"
 echo "Supabase Studio started at http://localhost:$DASHBOARD_PORT | Dashboard User: supabase | Dashboard Password: minhng.info"
