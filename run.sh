@@ -1,7 +1,8 @@
 #!/bin/bash
-DESTINATION=$1
-PORT=$2
-CHAT=$3
+DESTINATION=${1:-odoo-supabase}
+ODOO_PORT=${2:-10019}
+ODOO_CHAT=${3:-20019}
+DASHBOARD_PORT=${4:-8000}
 
 # Clone Odoo-Supabase directory
 git clone --depth=1 https://github.com/minhng92/odoo-supabase $DESTINATION
@@ -31,12 +32,14 @@ fi
 # Update docker-compose configuration
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS sed syntax
-  sed -i '' 's/10019/'$PORT'/g' $DESTINATION/docker-compose.yml
-  sed -i '' 's/20019/'$CHAT'/g' $DESTINATION/docker-compose.yml
+  sed -i '' 's/10019/'$ODOO_PORT'/g' $DESTINATION/docker-compose.yml
+  sed -i '' 's/20019/'$ODOO_CHAT'/g' $DESTINATION/docker-compose.yml
+  sed -i '' 's/KONG_HTTP_PORT=8000/KONG_HTTP_PORT='$DASHBOARD_PORT'/g' $DESTINATION/.env
 else
   # Linux sed syntax
-  sed -i 's/10019/'$PORT'/g' $DESTINATION/docker-compose.yml
-  sed -i 's/20019/'$CHAT'/g' $DESTINATION/docker-compose.yml
+  sed -i 's/10019/'$ODOO_PORT'/g' $DESTINATION/docker-compose.yml
+  sed -i 's/20019/'$ODOO_CHAT'/g' $DESTINATION/docker-compose.yml
+  sed -i 's/KONG_HTTP_PORT=8000/KONG_HTTP_PORT='$DASHBOARD_PORT'/g' $DESTINATION/.env
 fi
 
 # Set file and directory permissions after installation
@@ -53,5 +56,5 @@ else
 fi
 
 
-echo "Odoo started at http://localhost:$PORT | Master Password: minhng.info | Live chat port: $CHAT"
-echo "Supabase Studio started at http://localhost:8000 | Dashboard User: supabase | Master Password: minhng.info"
+echo "Odoo started at http://localhost:$ODOO_PORT | Master Password: minhng.info | Live chat port: $ODOO_CHAT"
+echo "Supabase Studio started at http://localhost:$DASHBOARD_PORT | Dashboard User: supabase | Dashboard Password: minhng.info"
