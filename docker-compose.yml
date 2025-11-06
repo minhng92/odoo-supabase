@@ -1,9 +1,6 @@
 # Usage
 #   Start:              docker compose up -d
 #   Stop:               docker compose down
-#   Reset everything:  ./reset.sh
-
-name: supabase
 
 services:
   odoo19:
