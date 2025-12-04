@@ -46,9 +46,7 @@ case "$1" in
             exec odoo "$@"
         else
             wait-for-psql.py ${DB_ARGS[@]} --timeout=30
-            echo "Creating database... (stop after init)"
-            exec odoo "$@" "${DB_ARGS[@]}" "--init=base --stop-after-init"
-            exec odoo "$@" "${DB_ARGS[@]}"
+            exec odoo "$@" "${DB_ARGS[@]}" "-i base"
         fi
         ;;
     -*)
