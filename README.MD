@@ -8,7 +8,14 @@ Install [docker](https://docs.docker.com/get-docker/) and [docker-compose](https
 
 ### Default setup
 
-Deploy to `odoo-supabase` with Odoo at `localhost:10019`, live chat at `localhost:20019`, and Supabase Studio at `localhost:8000` (default credentials: Odoo admin / admin | master password: minhng.info; Supabase Studio supabase / minhng.info):
+Deploy to `odoo-supabase` with Odoo at `localhost:10019`, live chat at `localhost:20019`, and Supabase Studio at `localhost:8000`. Default credentials:
+- Odoo:
+    - Email: admin
+    - Password: admin
+    - Master Password (DB): minhng.info
+- Supabase Studio:
+    - Username: supabase
+    - Password: minhng.info
 
 ```bash
 # Require available ports: 10019, 20019, 8000
