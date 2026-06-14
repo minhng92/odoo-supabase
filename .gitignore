@@ -1,3 +1,7 @@
+# clones
+odoo-19-docker-compose
+supabase-docker-compose
+
 # odoo
 postgresql/
 etc/odoo-server.log*
@@ -8,3 +12,4 @@ etc/filestore/
 # supabase
 volumes/db/data
 volumes/storage
+volumes/snippets/*.sql
