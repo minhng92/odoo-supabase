@@ -58,7 +58,7 @@ rm -rf $DESTINATION/.git
 CONFIG_PATH="$DESTINATION/etc/odoo.conf"
 DEFAULT_ADMIN_PASSWD="$(grep -E '^[[:space:]]*admin_passwd[[:space:]]*=' "$CONFIG_PATH" | head -n 1 | sed -E 's/^[[:space:]]*admin_passwd[[:space:]]*=[[:space:]]*//')"
 MASTER_PASSWORD="${PASSWORD:-$DEFAULT_ADMIN_PASSWD}"
-DEFAULT_DB_PASSWORD="$(grep -E '^[[:space:]]*-[[:space:]]*POSTGRES_PASSWORD=' "$DESTINATION/docker-compose.yml" | head -n 1 | sed -E 's/^[[:space:]]*-[[:space:]]*POSTGRES_PASSWORD=//')"
+DEFAULT_DB_PASSWORD="$(grep -E '^POSTGRES_PASSWORD=' "$DESTINATION/.env" | head -n 1 | sed -E 's/^POSTGRES_PASSWORD=//')"
 EFFECTIVE_DB_PASSWORD="${DB_PASSWORD:-$DEFAULT_DB_PASSWORD}"
 
 escape_sed_replacement() {
@@ -97,22 +97,20 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   fi
   if [[ -n "$DB_PASSWORD" ]]; then
     ESCAPED_DB_PASSWORD="$(escape_sed_replacement "$DB_PASSWORD")"
-    sed -i '' -E "s/^([[:space:]]*-[[:space:]]*POSTGRES_PASSWORD=).*/\\1$ESCAPED_DB_PASSWORD/" "$DESTINATION/docker-compose.yml"
-    sed -i '' -E "s/^([[:space:]]*-[[:space:]]*PASSWORD=).*/\\1$ESCAPED_DB_PASSWORD/" "$DESTINATION/docker-compose.yml"
+    sed -i '' -E "s/^(POSTGRES_PASSWORD=).*/\\1$ESCAPED_DB_PASSWORD/" "$DESTINATION/.env"
   fi
 else
   # Linux sed syntax
   sed -i 's/10019/'$PORT'/g' $DESTINATION/docker-compose.yml
   sed -i 's/20019/'$CHAT'/g' $DESTINATION/docker-compose.yml
-  sed -i 's/KONG_HTTP_PORT=8000/KONG_HTTP_PORT='$KONG_PORT '/g' $DESTINATION/.env
+  sed -i 's/KONG_HTTP_PORT=8000/KONG_HTTP_PORT='$KONG_PORT'/g' $DESTINATION/.env
   if [[ -n "$PASSWORD" ]]; then
     ESCAPED_PASSWORD="$(escape_sed_replacement "$MASTER_PASSWORD")"
     sed -i -E "s/^[[:space:]]*admin_passwd[[:space:]]*=.*/admin_passwd = $ESCAPED_PASSWORD/" "$CONFIG_PATH"
   fi
   if [[ -n "$DB_PASSWORD" ]]; then
     ESCAPED_DB_PASSWORD="$(escape_sed_replacement "$DB_PASSWORD")"
-    sed -i -E "s/^([[:space:]]*-[[:space:]]*POSTGRES_PASSWORD=).*/\\1$ESCAPED_DB_PASSWORD/" "$DESTINATION/docker-compose.yml"
-    sed -i -E "s/^([[:space:]]*-[[:space:]]*PASSWORD=).*/\\1$ESCAPED_DB_PASSWORD/" "$DESTINATION/docker-compose.yml"
+    sed -i -E "s/^(POSTGRES_PASSWORD=).*/\\1$ESCAPED_DB_PASSWORD/" "$DESTINATION/.env"
   fi
 fi
 
