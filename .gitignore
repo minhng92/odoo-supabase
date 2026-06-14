@@ -12,3 +12,4 @@ etc/filestore/
 # supabase
 volumes/db/data
 volumes/storage
+volumes/snippets/*.sql
